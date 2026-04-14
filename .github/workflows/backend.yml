@@ -69,5 +69,5 @@ jobs:
             "address": "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}",
             "md5": "${{ steps.build.outputs.digest }}",
             "name": "${{ env.IMAGE_NAME }}",
-            "service_id": ${{ secrets.BACKEND_SERVICE_ID }}
+            "service_id": 76
           }'
