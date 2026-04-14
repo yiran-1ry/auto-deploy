@@ -47,6 +47,7 @@ jobs:
         password: ${{ secrets.ALIYUN_PASSWORD }}
 
     - name: Build and push Docker image
+      id: build
       uses: docker/build-push-action@v5
       with:
         context: ./backend
@@ -58,11 +59,15 @@ jobs:
           version=${{ github.sha }}
           build-date=${{ env.CURRENT_DATE }}
 
-    - name: Build Status
-      if: always()
+    - name: Notify Backend
+      if: success()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
-          echo "Build succeeded at ${{ env.CURRENT_DATE }}"
-        else
-          echo "Build failed at ${{ env.CURRENT_DATE }}"
-        fi
+        curl -s -X POST "${{ secrets.DEPLOY_API_URL }}/api/notify" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "version": "${{ env.CURRENT_DATE }}",
+            "address": "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}",
+            "md5": "${{ steps.build.outputs.digest }}",
+            "name": "${{ env.IMAGE_NAME }}",
+            "service_id": ${{ secrets.BACKEND_SERVICE_ID }}
+          }'

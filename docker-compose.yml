@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     environment:
-      TZ: Asia/Shanghai
+      TZ: Asia/Singapore
     networks:
       - auto-deploy
 
@@ -23,7 +23,7 @@ services:
     depends_on:
       - auto-deploy-backend
     environment:
-      TZ: Asia/Shanghai
+      TZ: Asia/Singapore
     networks:
       - auto-deploy
 
