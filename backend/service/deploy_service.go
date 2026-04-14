@@ -41,7 +41,7 @@ func (s *deployService) GetDeployByID(id uint) (*models.Deploy, error) {
 
 func (s *deployService) CreateDeploy(deploy *models.Deploy) error {
 	deploy.Status = "pending"
-	deploy.DeployTime = time.Date(2006, time.January, 2, 15, 4, 5, 0, time.Local)
+	deploy.DeployTime = time.Now()
 	return s.deployRepo.Create(deploy)
 }
 
@@ -137,24 +137,21 @@ func (s *deployService) ExecuteDeploy(id uint) error {
 	}
 	s.addDeployLog(id, "镜像拉取成功")
 
-	s.addDeployLog(id, "开始启动容器...")
-	upCmd := fmt.Sprintf("cd %s && docker-compose -f %s up -d", targetDir, file.Name)
-	err = utils.ExecuteSSHCommand(client, upCmd)
-	if err != nil {
-		s.addDeployLog(id, fmt.Sprintf("启动容器失败: %v", err))
-		s.deployRepo.UpdateStatus(id, "failed")
-		return err
-	}
-	s.addDeployLog(id, "容器启动成功")
-
 	deploy.Status = "success"
 	deploy.DeployTime = time.Now()
 	if err := s.deployRepo.Update(deploy); err != nil {
 		s.addDeployLog(id, fmt.Sprintf("更新部署状态失败: %v", err))
 		return err
 	}
+	s.addDeployLog(id, "部署完成，启动容器中...")
 
-	s.addDeployLog(id, "部署完成")
+	upCmd := fmt.Sprintf("cd %s && docker-compose -f %s up -d", targetDir, file.Name)
+	if err := utils.ExecuteSSHCommand(client, upCmd); err != nil {
+		s.addDeployLog(id, fmt.Sprintf("启动容器失败: %v", err))
+		s.deployRepo.UpdateStatus(id, "failed")
+		return err
+	}
+	s.addDeployLog(id, "容器启动成功")
 	return nil
 }
 
