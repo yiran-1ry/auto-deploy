@@ -7,6 +7,8 @@ services:
     privileged: true
     ports:
       - "18080:8080"
+    env_file:
+      - .env
     environment:
       TZ: Asia/Shanghai
     networks:
