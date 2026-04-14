@@ -17,7 +17,7 @@ func main() {
 	// 初始化日志
 	logger.InitLogger(zapcore.InfoLevel)
 	log := logger.GetLogger()
-	log.Sugar().Info("启动自动化运维平台后端服务...")
+	log.Sugar().Info("启动自动化运维平台后端服务 v2...")
 
 	// 加载配置
 	cfg, err := config.LoadConfig()
