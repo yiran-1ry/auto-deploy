@@ -12,7 +12,7 @@ on:
       - 'frontend/**'
 
 env:
-  REGISTRY: registry.ap-southeast-1.aliyuncs.com/images_d
+  REGISTRY: crpi-4z8h6zhc9e28drvr.ap-southeast-1.personal.cr.aliyuncs.com/images_d
   IMAGE_NAME: auto-deploy-frontend
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
     - name: Login to Aliyun Container Registry
       uses: docker/login-action@v3
       with:
-        registry: registry.ap-southeast-1.aliyuncs.com
+        registry: crpi-4z8h6zhc9e28drvr.ap-southeast-1.personal.cr.aliyuncs.com
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
 

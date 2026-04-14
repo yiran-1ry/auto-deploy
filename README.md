@@ -51,5 +51,5 @@ docker-compose up -d
 
 ## 镜像地址
 
-- 后端：`registry.ap-southeast-1.aliyuncs.com/images_d/auto-deploy-backend`
-- 前端：`registry.ap-southeast-1.aliyuncs.com/images_d/auto-deploy-frontend`
+- 后端：`crpi-4z8h6zhc9e28drvr.ap-southeast-1.personal.cr.aliyuncs.com/images_d/auto-deploy-backend`
+- 前端：`crpi-4z8h6zhc9e28drvr.ap-southeast-1.personal.cr.aliyuncs.com/images_d/auto-deploy-frontend`

@@ -1,7 +1,7 @@
 version: '3'
 services:
   auto-deploy-backend:
-    image: registry.ap-southeast-1.aliyuncs.com/images_d/auto-deploy-backend
+    image: crpi-4z8h6zhc9e28drvr.ap-southeast-1.personal.cr.aliyuncs.com/images_d/auto-deploy-backend
     networks:
       - auto-deploy
     restart: always
