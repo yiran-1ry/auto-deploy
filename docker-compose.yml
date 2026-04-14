@@ -1,0 +1,30 @@
+version: '3'
+services:
+  auto-deploy-backend:
+    image: registry.ap-southeast-1.aliyuncs.com/images_d/auto-deploy-backend
+    restart: always
+    container_name: auto-deploy-backend
+    privileged: true
+    ports:
+      - "18080:8080"
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - auto-deploy
+
+  auto-deploy-frontend:
+    image: registry.ap-southeast-1.aliyuncs.com/images_d/auto-deploy-frontend
+    restart: always
+    container_name: auto-deploy-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - auto-deploy-backend
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - auto-deploy
+
+networks:
+  auto-deploy:
+    driver: bridge
