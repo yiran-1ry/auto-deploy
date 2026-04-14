@@ -122,6 +122,11 @@ func (s *deployService) ExecuteDeploy(id uint) error {
 	}
 	s.addDeployLog(id, fmt.Sprintf("文件发送成功: %s", filePath))
 
+	s.addDeployLog(id, "清理旧容器...")
+	downCmd := fmt.Sprintf("cd %s && docker-compose -f %s down --remove-orphans 2>/dev/null || true", targetDir, file.Name)
+	_ = utils.ExecuteSSHCommand(client, downCmd)
+	s.addDeployLog(id, "旧容器已清理")
+
 	s.addDeployLog(id, "开始拉取镜像...")
 	pullCmd := fmt.Sprintf("cd %s && docker-compose -f %s pull", targetDir, file.Name)
 	err = utils.ExecuteSSHCommand(client, pullCmd)
