@@ -138,7 +138,7 @@ func (s *deployService) ExecuteDeploy(id uint) error {
 		s.addDeployLog(id, fmt.Sprintf("更新部署状态失败: %v", err))
 		return err
 	}
-	s.addDeployLog(id, "部署完成，启动容器中...")
+	s.addDeployLog(id, "部署完成，启动容器中......")
 
 	upCmd := fmt.Sprintf("cd %s && nohup docker compose -f %s up -d > /tmp/deploy-%d.log 2>&1 &", targetDir, file.Name, id)
 	_ = utils.ExecuteSSHCommand(client, upCmd)
